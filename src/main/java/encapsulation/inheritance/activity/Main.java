@@ -153,7 +153,7 @@ class productScanners {
 
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a valid number for discount rate.");
+                System.out.println("Invalid input, please enter a valid number for discount rate. (Please do not add % sign, ex. 68%, instead just put 68.)");
                 scanner.nextLine();
             }
         }

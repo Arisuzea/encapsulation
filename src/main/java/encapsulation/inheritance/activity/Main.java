@@ -97,7 +97,7 @@ class Product {
 
 class productScanners {
     public DiscountedProduct productScanner(Scanner scanner) {
-        // Variable initializations
+// Variable initializations
         String name = "";
         String code = "";
         double price = 0.0;

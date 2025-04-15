@@ -1,6 +1,7 @@
 package encapsulation.inheritance.activity;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 // Galit ako sa typing
 // kaya po ganyarn sya, tinks
@@ -10,7 +11,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         
-// Create instances of helper classes
+// Create helpers
         productScanners scannerHelper = new productScanners();
         displayProducts displayHelper = new displayProducts();
 
@@ -22,7 +23,7 @@ public class Main {
     }
 }
 
-
+ 
 class DiscountedProduct extends Product {
     private double discountRate;
 
@@ -96,22 +97,70 @@ class Product {
 
 class productScanners {
     public DiscountedProduct productScanner(Scanner scanner) {
+        // Variable initializations
+        String name = "";
+        String code = "";
+        double price = 0.0;
+        double discount = 0.0;
+
         System.out.print("Enter product name: ");
-        String name = scanner.nextLine();
+        name = scanner.nextLine();
 
         System.out.print("Enter product code: ");
-        String code = scanner.nextLine();
+        code = scanner.nextLine();
 
-        System.out.print("Enter product price: ");
-        double price = scanner.nextDouble();
+        price = getPrice(scanner);
 
-        System.out.print("Enter discount rate (in percentage): ");
-        double discount = scanner.nextDouble();
-        scanner.nextLine();
+        discount = getDiscount(scanner);
 
         return new DiscountedProduct(name, code, price, discount);
     }
+
+// Method to get a valid price
+    private double getPrice(Scanner scanner) {
+        double price = 0.0;
+        while (true) {
+            try {
+                System.out.print("Enter product price: ");
+                price = scanner.nextDouble();
+
+                if (price < 0) {
+                    System.out.println("Price cannot be negative. Please enter a valid price.");
+                    continue;
+                }
+
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number for price.");
+                scanner.nextLine();
+            }
+        }
+        return price;
+    }
+    
+// Method to get a valid discount
+    private double getDiscount(Scanner scanner) {
+        double discount = 0.0;
+        while (true) {
+            try {
+                System.out.print("Enter discount rate (in percentage): ");
+                discount = scanner.nextDouble(); 
+
+                if (discount < 0 || discount > 100) {
+                    System.out.println("Discount rate must be between 0 and 100. Please enter a valid discount rate.");
+                    continue; 
+                }
+
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number for discount rate.");
+                scanner.nextLine();
+            }
+        }
+        return discount;
+    }
 }
+
 
 class displayProducts {
     public void displayProductDetails(DiscountedProduct product) {
